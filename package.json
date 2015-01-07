@@ -1,0 +1,16 @@
+{
+  "name": "StringCalculator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "calculator.spec.js",
+  "dependencies": {
+    "chai": "*",
+    "mocha": "*"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

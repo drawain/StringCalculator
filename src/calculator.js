@@ -5,24 +5,27 @@ function StringCalculator() {
 
 StringCalculator.prototype = {
   add: function (stringWithNumbers) {
-    if (!this._hasNumber(stringWithNumbers)) return 0;
+    if (!this._isEmpty(stringWithNumbers)) return 0;
 
     var numbers = this._getNumbers(stringWithNumbers);
     return this._addNumbers(numbers);
   },
 
-  _stringToNumber: function (numbers) {
-    return parseInt(numbers, 10);
+  _stringToNumber: function (stringWithNumber) {
+    var number = parseInt(stringWithNumber, 10);
+    if (number < 0) {
+      throw new StringCalculator.NegativeNumberError();
+    }
+    return number;
   },
 
-  _hasNumber: function (stringWithNumbers) {
+  _isEmpty: function (stringWithNumbers) {
     return Boolean(stringWithNumbers);
   },
 
-  _getNumbers: function (stringWithNumbers) {
-    var stringProcessor = new StringProcessor(stringWithNumbers);
-    var delimiter = stringProcessor.getDelimiter();
-    return stringProcessor.stringWithoutStarterDelimiter().split(delimiter).map(this._stringToNumber);
+  _getNumbers: function (stringDataSet) {
+    var stringProcessor = new StringProcessor(stringDataSet);
+    return stringProcessor.getData().map(this._stringToNumber);
   },
 
   _addNumbers: function(numbers) {
@@ -37,18 +40,30 @@ function StringProcessor(stringWithNumbers) {
 }
 
 StringProcessor.prototype = {
-  hasDelimiter: function() {
+  getData: function() {
+    return this._stringWithoutStarterDelimiter().split(this._getDelimiter());
+  },
+  _hasDelimiter: function() {
     return this.stringWithNumbers[0] === '/';
   },
-  getDelimiter: function() {
+  _getDelimiter: function() {
     var regString = '[\,\n\\' + this.stringWithNumbers[2] + ']';
-    if (this.hasDelimiter()) return new RegExp(regString);
+    if (this._hasDelimiter()) return new RegExp(regString);
     return /[,\n]/;
   },
-  stringWithoutStarterDelimiter: function() {
-    if (this.hasDelimiter())return this.stringWithNumbers.slice(4);
+  _stringWithoutStarterDelimiter: function() {
+    if (this._hasDelimiter())return this.stringWithNumbers.slice(4);
     return this.stringWithNumbers;
   }
+
+};
+
+
+StringCalculator.NegativeNumberError = function() {};
+StringCalculator.NegativeNumberError.prototype = new Error();
+
+StringCalculator.create = function() {
+  return new StringCalculator();
 };
 
 module.exports = StringCalculator;

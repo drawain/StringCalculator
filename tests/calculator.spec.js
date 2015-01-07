@@ -7,7 +7,7 @@ describe('calculator', function() {
   var stringCalculator;
 
   beforeEach(function() {
-    stringCalculator = new StringCalculator();
+    stringCalculator = StringCalculator.create();
   });
 
   it('should give back 0 if the parameter is an empty string', function() {
@@ -35,10 +35,19 @@ describe('calculator', function() {
     expect(stringCalculator.add("1\n2\n3")).to.equal(6);
   });
 
-  it.only('should support different delimiter given in the first line optionally', function() {
+  it('should support different delimiter given in the first line optionally', function() {
     expect(stringCalculator.add('//;\n1;2;3')).to.equal(6);
     expect(stringCalculator.add('//;\n1;2,3\n4')).to.equal(10);
   });
+
+  it('should throw an exception if there is a negative number', function() {
+
+    expect(function() {
+      stringCalculator.add('1,2,-3');
+    }).to.throw(StringCalculator.NegativeNumberError);
+  });
+
+
 
 });
 

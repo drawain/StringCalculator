@@ -32,6 +32,11 @@ describe('calculator', function() {
 
   it('should give back the addition of the given numbers if the separator is new line', function() {
     expect(stringCalculator.add("1\n2")).to.equal(3);
+    expect(stringCalculator.add("1\n2\n3")).to.equal(6);
+  });
+
+  it.only('should support different delimiter given in the first line optionally', function() {
+    expect(stringCalculator.add('//;\n1;2;3')).to.equal(6);
   });
 
 });

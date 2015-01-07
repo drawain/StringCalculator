@@ -5,7 +5,7 @@ function StringCalculator() {
 
 StringCalculator.prototype = {
   add: function (stringWithNumbers) {
-    if (!this._isEmpty(stringWithNumbers)) return 0;
+    if (this._isEmpty(stringWithNumbers)) return 0;
 
     var numbers = this._getNumbers(stringWithNumbers);
     return this._addNumbers(numbers);
@@ -20,7 +20,7 @@ StringCalculator.prototype = {
   },
 
   _isEmpty: function (stringWithNumbers) {
-    return Boolean(stringWithNumbers);
+    return !(stringWithNumbers);
   },
 
   _getNumbers: function (stringDataSet) {

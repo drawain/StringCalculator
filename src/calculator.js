@@ -21,11 +21,8 @@ StringCalculator.prototype = {
 
   _getNumbers: function (stringWithNumbers) {
     var stringProcessor = new StringProcessor(stringWithNumbers);
-    if (stringProcessor.hasDelimiter()) {
-      stringWithNumbers = stringProcessor.stringWithoutDelimiter();
-    }
     var delimiter = stringProcessor.getDelimiter();
-    return stringWithNumbers.split(delimiter).map(this._stringToNumber);
+    return stringProcessor.stringWithoutStarterDelimiter().split(delimiter).map(this._stringToNumber);
   },
 
   _addNumbers: function(numbers) {
@@ -45,12 +42,12 @@ StringProcessor.prototype = {
   },
   getDelimiter: function() {
     var regString = '[\,\n\\' + this.stringWithNumbers[2] + ']';
-    console.log(regString);
     if (this.hasDelimiter()) return new RegExp(regString);
     return /[,\n]/;
   },
-  stringWithoutDelimiter: function() {
-    return this.stringWithNumbers.slice(4);
+  stringWithoutStarterDelimiter: function() {
+    if (this.hasDelimiter())return this.stringWithNumbers.slice(4);
+    return this.stringWithNumbers;
   }
 };
 

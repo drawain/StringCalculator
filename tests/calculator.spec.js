@@ -37,6 +37,7 @@ describe('calculator', function() {
 
   it.only('should support different delimiter given in the first line optionally', function() {
     expect(stringCalculator.add('//;\n1;2;3')).to.equal(6);
+    expect(stringCalculator.add('//;\n1;2,3\n4')).to.equal(10);
   });
 
 });
